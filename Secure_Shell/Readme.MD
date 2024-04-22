@@ -254,6 +254,35 @@ You've generated an SSH key pair, copied the public key to another server, SSHed
 
 **********
 
+SSH tunneling and port forwarding are techniques used to secure and route network connections over SSH.
+
+**SSH Tunneling**:
+An SSH tunnel is a secure, encrypted connection established between a client and a server over an SSH protocol. It allows you to securely transmit data between two networked devices, typically across an unsecured network like the internet. SSH tunneling creates a "tunnel" through which traffic can be sent securely.
+
+**SSH Port Forwarding**:
+SSH port forwarding, also known as SSH tunneling or SSH local and remote port forwarding, is a mechanism used to forward network connections from one SSH server port to another, or from a local port to a remote server's port, through an SSH connection. It enables you to securely access services that are running on a remote server as if they were running on your local machine.
+
+Example >> You want to forward traffic from port 8080 on your local Ubuntu machine to a server with IP address 192.168.124.219, port 80, via an SSH tunnel using the username "adrian"...
+
+1. Establish an SSH connection with port forwarding:
+   
+   Open a terminal on your local Ubuntu machine and use the following command to establish an SSH connection with port forwarding:
+
+   ```bash
+   ssh -L 8080:192.168.124.219:80 adrian@your_remote_server_ip
+   ```
+
+   This command creates a local port forwarding from port 8080 on your local machine to port 80 on the remote server with IP address 192.168.124.219, using the SSH username "adrian". Replace `your_remote_server_ip` with the IP address of your remote server.
+
+2. Once the SSH connection is established, any traffic sent to port 8080 on your local machine will be forwarded securely through the SSH tunnel to port 80 on the remote server.
+
+3. You can test the setup by accessing `http://localhost:8080` in your web browser on the local machine. This should display the content served by the remote server at `http://192.168.124.219`.
+
+By using SSH port forwarding in this way, you can securely access services running on a remote server as if they were running locally on your machine. This is useful for accessing web servers, databases, or any other services running on remote servers securely over an encrypted SSH connection.
+
+
+**********
+
 Shell scripting refers to writing a series of commands for a command-line interpreter (shell) to execute. It allows users to automate tasks, run multiple commands sequentially or conditionally, and perform various system administration tasks efficiently.
 
 Bash (Bourne Again Shell) is one of the most common and widely used Unix shell interpreters. It is the default shell on most Linux distributions and macOS systems. Bash provides a powerful scripting language with features such as variables, loops, conditionals, functions, and error handling, allowing users to write complex and robust shell scripts.
