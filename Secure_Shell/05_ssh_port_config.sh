@@ -36,3 +36,4 @@ echo "The new port $NEW_PORT has been added to UFW."
 echo "UFW has been enabled."
 echo "Current UFW rules:"
 sudo ufw status numbered
+

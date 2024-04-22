@@ -416,3 +416,68 @@ echo "$top_processes"
 
 Bash Script Examples:
 
+Bash script that prompts the user to enter the new SSH port number, changes the SSH port in the SSH configuration file (sshd_config), and restarts the SSH service:
+
+```bash
+#!/bin/bash
+
+# Prompt the user to enter the new SSH port number
+read -p "Enter the new SSH port number: " NEW_PORT
+
+# Check if the entered port number is valid
+if ! [[ "$NEW_PORT" =~ ^[0-9]+$ ]]; then
+    echo "Error: Invalid port number. Please enter a valid port number."
+    exit 1
+fi
+
+# Uncomment the Port line in sshd_config if it's commented
+if grep -qE '^#\s*Port' /etc/ssh/sshd_config; then
+    sudo sed -i "s/^#\s*Port/Port/" /etc/ssh/sshd_config
+fi
+
+# Get the current SSH port number from sshd_config
+CURRENT_PORT=$(awk '$1=="Port" {print $2}' /etc/ssh/sshd_config)
+
+# Change SSH port in sshd_config
+sudo sed -i "s/^Port .*/Port $NEW_PORT/" /etc/ssh/sshd_config
+
+# Restart SSH service
+sudo systemctl restart ssh
+
+# Add the new SSH port to UFW
+sudo ufw allow $NEW_PORT/tcp
+
+# Enable UFW
+sudo ufw --force enable
+
+# Print status messages
+echo "SSH port has been changed from $CURRENT_PORT to $NEW_PORT."
+echo "SSH service has been restarted."
+echo "The new port $NEW_PORT has been added to UFW."
+echo "UFW has been enabled."
+echo "Current UFW rules:"
+sudo ufw status numbered
+```
+
+Explanation of each part:
+
+1. `read -p "Enter the new SSH port number: " NEW_PORT`: This line prompts the user to enter the new SSH port number and stores the input in the variable `NEW_PORT`.
+
+2. The `if` statement checks if the entered port number is valid using a regular expression. If the entered port number contains only digits, the script continues; otherwise, it displays an error message and exits.
+
+3. The script checks if the `Port` line in the SSH configuration file (`sshd_config`) is commented. If it is, it uncomments the line to ensure it's active for port configuration.
+
+4. Using `awk`, the script extracts the current SSH port number from the `sshd_config` file.
+
+5. The script replaces the existing port number with the one provided by the user in the `sshd_config` file using `sed`.
+
+6. It restarts the SSH service to apply the changes made to the configuration file.
+
+7. The new SSH port is added to the Uncomplicated Firewall (UFW) using the `ufw allow` command.
+
+8. The script enables UFW forcefully to activate the firewall rules.
+
+9. Finally, it prints status messages to confirm the changes made, including the new SSH port number, the restart of the SSH service, the addition of the new port to UFW, and the current UFW rules using `ufw status numbered`.
+
+This script allows you to change the SSH port number on your Ubuntu system, add it to the firewall, and verify the changes with ease. Always ensure you have access to the system through alternative means in case something goes wrong.
+
