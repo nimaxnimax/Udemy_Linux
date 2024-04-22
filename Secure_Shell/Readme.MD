@@ -397,3 +397,49 @@ Explanation of each line:
 This script can be saved in a file with a `.sh` extension, and then you can execute it to display the listening ports along with their corresponding PIDs on your Ubuntu system.
 
 
+Bash script to show the up and running services on Ubuntu along with their uptime:
+
+```bash
+#!/bin/bash
+
+# Get list of running services
+services=$(systemctl list-units --type=service --state=running --no-pager)
+
+# Print header
+echo "Up and Running Services on Ubuntu:"
+echo "----------------------------------"
+echo "Service          Uptime"
+
+# Loop through each line of running services
+while read -r line; do
+    # Extract service name and uptime
+    service=$(echo "$line" | awk '{print $1}')
+    uptime=$(echo "$line" | awk '{print $4}')
+    # Print service name and uptime
+    printf "%-16s%-20s\n" "$service" "$uptime"
+done <<< "$services"
+```
+
+Explanation of each line:
+
+1. `#!/bin/bash`: This line specifies the interpreter to be used, which is Bash.
+
+2. `services=$(systemctl list-units --type=service --state=running --no-pager)`: This line uses `systemctl` to list all running services without a pager.
+
+3. `echo "Up and Running Services on Ubuntu:"`: This line prints a header indicating the purpose of the output.
+
+4. `echo "----------------------------------"`: This line prints a separator line for better readability.
+
+5. `echo "Service          Uptime"`: This line prints column headers.
+
+6. `while read -r line; do ... done <<< "$services"`: This line loops through each line of the `services` variable.
+
+7. `service=$(echo "$line" | awk '{print $1}')`: This line extracts the service name from the line using `awk`.
+
+8. `uptime=$(echo "$line" | awk '{print $4}')`: This line extracts the uptime of the service from the line using `awk`.
+
+9. `printf "%-16s%-20s\n" "$service" "$uptime"`: This line prints the service name and uptime in a formatted manner.
+
+This script can be saved in a file with a `.sh` extension, and then you can execute it to display the up and running services along with their uptime on your Ubuntu system.
+
+

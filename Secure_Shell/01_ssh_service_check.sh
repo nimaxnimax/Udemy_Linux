@@ -9,3 +9,4 @@ if systemctl is-active --quiet $SERVICE ; then
 else
     echo "SSH service is not running."
 fi
+
