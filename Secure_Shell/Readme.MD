@@ -312,17 +312,13 @@ Shell scripting with Bash is a powerful tool for automating tasks, managing syst
 
 Bash Script Examples:
 
-
-Below is an example of a Bash script that checks if the SSH service is running on an Ubuntu system:
+Simple Bash script to check if the SSH service is up and running on Ubuntu:
 
 ```bash
 #!/bin/bash
 
-# Define the SSH service name
-SERVICE="ssh"
-
-# Check if the SSH service is running
-if systemctl is-active --quiet $SERVICE ; then
+# Check if SSH service is running
+if systemctl is-active ssh >/dev/null 2>&1; then
     echo "SSH service is running."
 else
     echo "SSH service is not running."
@@ -331,115 +327,40 @@ fi
 
 Explanation of each line:
 
-1. `#!/bin/bash`: This line is called a shebang, and it tells the system which interpreter to use to execute the script. In this case, it specifies that the script should be executed using the Bash shell.
+1. `#!/bin/bash`: This line specifies the interpreter to be used, which is Bash.
 
-2. `SERVICE="ssh"`: This line assigns the name of the SSH service to a variable named `SERVICE`. It's good practice to define constants or configurable values like service names at the beginning of the script for easy modification.
+2. `if systemctl is-active ssh >/dev/null 2>&1; then`: This line checks if the SSH service is active using the `systemctl is-active` command. `/dev/null` is a special file that discards all data written to it, and `2>&1` redirects standard error (stderr) to the same location as standard output (stdout). This way, any output or error messages from `systemctl` are discarded.
 
-3. `if systemctl is-active --quiet $SERVICE ; then`: This line checks if the SSH service is active using the `systemctl is-active` command. The `--quiet` option suppresses output, and `$SERVICE` is replaced with the value of the `SERVICE` variable. If the service is active, the condition returns true.
+3. `echo "SSH service is running."`: This line prints a message indicating that the SSH service is running if the condition in the previous line evaluates to true.
 
-4. `echo "SSH service is running."`: This line prints a message indicating that the SSH service is running if the condition in the previous line evaluates to true.
-
-5. `else`: This line starts the else block, which executes if the condition in the if statement evaluates to false.
-
-6. `echo "SSH service is not running."`: This line prints a message indicating that the SSH service is not running if the condition in the if statement evaluates to false.
-
-7. `fi`: This line marks the end of the if-else block.
+4. `echo "SSH service is not running."`: This line prints a message indicating that the SSH service is not running if the condition in the if statement evaluates to false.
 
 This script can be saved in a file with a `.sh` extension, and then you can execute it to check the status of the SSH service on your Ubuntu system. If the service is running, it will display "SSH service is running." Otherwise, it will display "SSH service is not running."
 
 
-Below is an example of a Bash script that shows the IP addresses and ports being listened on Ubuntu along with their corresponding process IDs (PIDs):
+**********
+
+Bash Script Examples:
+
+Simple Bash script that executes the `netstat` command to show the IP addresses and ports listening on Ubuntu:
 
 ```bash
 #!/bin/bash
 
-# Get listening ports and corresponding process IDs
-listening_ports=$(sudo netstat -tuln | grep LISTEN)
-
-# Print header
-echo "Listening Ports on Ubuntu:"
-echo "---------------------------------"
-echo "PID    Port    IP"
-
-# Loop through each line of listening ports
-while read -r line; do
-    # Extract PID, port, and IP address
-    pid=$(echo "$line" | awk '{print $7}' | cut -d '/' -f 1)
-    port=$(echo "$line" | awk '{print $4}' | awk -F ':' '{print $2}')
-    ip=$(echo "$line" | awk '{print $4}' | awk -F ':' '{print $1}')
-    # Print PID, port, and IP address
-    printf "%-7s%-8s%-15s\n" "$pid" "$port" "$ip"
-done <<< "$listening_ports"
+# Execute netstat command to show listening ports
+netstat -tuln
 ```
 
 Explanation of each line:
 
 1. `#!/bin/bash`: This line specifies the interpreter to be used, which is Bash.
 
-2. `listening_ports=$(sudo netstat -tuln | grep LISTEN)`: This line uses `netstat` to get a list of all listening ports and their corresponding process IDs. `sudo` is used to run the command with superuser privileges. `grep LISTEN` filters the output to only show listening ports.
+2. `netstat -tuln`: This line executes the `netstat` command with options `-tuln` to display listening TCP and UDP sockets along with their numeric addresses and ports. 
 
-3. `echo "Listening Ports on Ubuntu:"`: This line prints a header indicating the purpose of the output.
-
-4. `echo "---------------------------------"`: This line prints a separator line for better readability.
-
-5. `echo "PID    Port    IP"`: This line prints column headers.
-
-6. `while read -r line; do ... done <<< "$listening_ports"`: This line loops through each line of the `listening_ports` variable.
-
-7. `pid=$(echo "$line" | awk '{print $7}' | cut -d '/' -f 1)`: This line extracts the PID from the line using `awk` and `cut`.
-
-8. `port=$(echo "$line" | awk '{print $4}' | awk -F ':' '{print $2}')`: This line extracts the port number from the line using `awk` and `awk -F ':'`.
-
-9. `ip=$(echo "$line" | awk '{print $4}' | awk -F ':' '{print $1}')`: This line extracts the IP address from the line using `awk` and `awk -F ':'`.
-
-10. `printf "%-7s%-8s%-15s\n" "$pid" "$port" "$ip"`: This line prints the PID, port, and IP address in a formatted manner.
-
-This script can be saved in a file with a `.sh` extension, and then you can execute it to display the listening ports along with their corresponding PIDs on your Ubuntu system.
+This script can be saved in a file with a `.sh` extension, and then you can execute it to display the IP addresses and ports being listened on your Ubuntu system. The output will show all listening ports along with the associated IP addresses and protocol types.
 
 
-Bash script to show the up and running services on Ubuntu along with their uptime:
+**********
 
-```bash
-#!/bin/bash
-
-# Get list of running services
-services=$(systemctl list-units --type=service --state=running --no-pager)
-
-# Print header
-echo "Up and Running Services on Ubuntu:"
-echo "----------------------------------"
-echo "Service          Uptime"
-
-# Loop through each line of running services
-while read -r line; do
-    # Extract service name and uptime
-    service=$(echo "$line" | awk '{print $1}')
-    uptime=$(echo "$line" | awk '{print $4}')
-    # Print service name and uptime
-    printf "%-16s%-20s\n" "$service" "$uptime"
-done <<< "$services"
-```
-
-Explanation of each line:
-
-1. `#!/bin/bash`: This line specifies the interpreter to be used, which is Bash.
-
-2. `services=$(systemctl list-units --type=service --state=running --no-pager)`: This line uses `systemctl` to list all running services without a pager.
-
-3. `echo "Up and Running Services on Ubuntu:"`: This line prints a header indicating the purpose of the output.
-
-4. `echo "----------------------------------"`: This line prints a separator line for better readability.
-
-5. `echo "Service          Uptime"`: This line prints column headers.
-
-6. `while read -r line; do ... done <<< "$services"`: This line loops through each line of the `services` variable.
-
-7. `service=$(echo "$line" | awk '{print $1}')`: This line extracts the service name from the line using `awk`.
-
-8. `uptime=$(echo "$line" | awk '{print $4}')`: This line extracts the uptime of the service from the line using `awk`.
-
-9. `printf "%-16s%-20s\n" "$service" "$uptime"`: This line prints the service name and uptime in a formatted manner.
-
-This script can be saved in a file with a `.sh` extension, and then you can execute it to display the up and running services along with their uptime on your Ubuntu system.
-
+Bash Script Examples:
 
