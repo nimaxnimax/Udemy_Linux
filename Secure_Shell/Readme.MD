@@ -310,3 +310,41 @@ Shell scripting with Bash is a powerful tool for automating tasks, managing syst
 
 **********
 
+Bash Script Examples:
+
+
+Below is an example of a Bash script that checks if the SSH service is running on an Ubuntu system:
+
+```bash
+#!/bin/bash
+
+# Define the SSH service name
+SERVICE="ssh"
+
+# Check if the SSH service is running
+if systemctl is-active --quiet $SERVICE ; then
+    echo "SSH service is running."
+else
+    echo "SSH service is not running."
+fi
+```
+
+Explanation of each line:
+
+1. `#!/bin/bash`: This line is called a shebang, and it tells the system which interpreter to use to execute the script. In this case, it specifies that the script should be executed using the Bash shell.
+
+2. `SERVICE="ssh"`: This line assigns the name of the SSH service to a variable named `SERVICE`. It's good practice to define constants or configurable values like service names at the beginning of the script for easy modification.
+
+3. `if systemctl is-active --quiet $SERVICE ; then`: This line checks if the SSH service is active using the `systemctl is-active` command. The `--quiet` option suppresses output, and `$SERVICE` is replaced with the value of the `SERVICE` variable. If the service is active, the condition returns true.
+
+4. `echo "SSH service is running."`: This line prints a message indicating that the SSH service is running if the condition in the previous line evaluates to true.
+
+5. `else`: This line starts the else block, which executes if the condition in the if statement evaluates to false.
+
+6. `echo "SSH service is not running."`: This line prints a message indicating that the SSH service is not running if the condition in the if statement evaluates to false.
+
+7. `fi`: This line marks the end of the if-else block.
+
+This script can be saved in a file with a `.sh` extension, and then you can execute it to check the status of the SSH service on your Ubuntu system. If the service is running, it will display "SSH service is running." Otherwise, it will display "SSH service is not running."
+
+
