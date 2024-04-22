@@ -348,3 +348,52 @@ Explanation of each line:
 This script can be saved in a file with a `.sh` extension, and then you can execute it to check the status of the SSH service on your Ubuntu system. If the service is running, it will display "SSH service is running." Otherwise, it will display "SSH service is not running."
 
 
+Below is an example of a Bash script that shows the IP addresses and ports being listened on Ubuntu along with their corresponding process IDs (PIDs):
+
+```bash
+#!/bin/bash
+
+# Get listening ports and corresponding process IDs
+listening_ports=$(sudo netstat -tuln | grep LISTEN)
+
+# Print header
+echo "Listening Ports on Ubuntu:"
+echo "---------------------------------"
+echo "PID    Port    IP"
+
+# Loop through each line of listening ports
+while read -r line; do
+    # Extract PID, port, and IP address
+    pid=$(echo "$line" | awk '{print $7}' | cut -d '/' -f 1)
+    port=$(echo "$line" | awk '{print $4}' | awk -F ':' '{print $2}')
+    ip=$(echo "$line" | awk '{print $4}' | awk -F ':' '{print $1}')
+    # Print PID, port, and IP address
+    printf "%-7s%-8s%-15s\n" "$pid" "$port" "$ip"
+done <<< "$listening_ports"
+```
+
+Explanation of each line:
+
+1. `#!/bin/bash`: This line specifies the interpreter to be used, which is Bash.
+
+2. `listening_ports=$(sudo netstat -tuln | grep LISTEN)`: This line uses `netstat` to get a list of all listening ports and their corresponding process IDs. `sudo` is used to run the command with superuser privileges. `grep LISTEN` filters the output to only show listening ports.
+
+3. `echo "Listening Ports on Ubuntu:"`: This line prints a header indicating the purpose of the output.
+
+4. `echo "---------------------------------"`: This line prints a separator line for better readability.
+
+5. `echo "PID    Port    IP"`: This line prints column headers.
+
+6. `while read -r line; do ... done <<< "$listening_ports"`: This line loops through each line of the `listening_ports` variable.
+
+7. `pid=$(echo "$line" | awk '{print $7}' | cut -d '/' -f 1)`: This line extracts the PID from the line using `awk` and `cut`.
+
+8. `port=$(echo "$line" | awk '{print $4}' | awk -F ':' '{print $2}')`: This line extracts the port number from the line using `awk` and `awk -F ':'`.
+
+9. `ip=$(echo "$line" | awk '{print $4}' | awk -F ':' '{print $1}')`: This line extracts the IP address from the line using `awk` and `awk -F ':'`.
+
+10. `printf "%-7s%-8s%-15s\n" "$pid" "$port" "$ip"`: This line prints the PID, port, and IP address in a formatted manner.
+
+This script can be saved in a file with a `.sh` extension, and then you can execute it to display the listening ports along with their corresponding PIDs on your Ubuntu system.
+
+
