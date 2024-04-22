@@ -10,7 +10,7 @@ if ! [[ "$NEW_PORT" =~ ^[0-9]+$ ]]; then
 fi
 
 # Change SSH port in sshd_config
-sudo sed -i "s/#Port 22/Port $NEW_PORT/" /etc/ssh/sshd_config
+sudo sed -i "s/Port 22/Port $NEW_PORT/" /etc/ssh/sshd_config
 
 # Restart SSH service
 sudo systemctl restart ssh
