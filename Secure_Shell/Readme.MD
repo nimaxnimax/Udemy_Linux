@@ -481,3 +481,83 @@ Explanation of each part:
 
 This script allows you to change the SSH port number on your Ubuntu system, add it to the firewall, and verify the changes with ease. Always ensure you have access to the system through alternative means in case something goes wrong.
 
+
+**********
+
+Bash Script Examples - SSH Key Pair:
+
+```bash
+#!/bin/bash
+
+# Function to generate SSH key pair
+generate_ssh_keypair() {
+    echo "Generating SSH key pair..."
+    ssh-keygen -t rsa -b 2048
+}
+
+# Function to list generated SSH key files
+list_ssh_keys() {
+    echo "List of generated SSH key files:"
+    ls -l ~/.ssh/
+}
+
+# Function to copy SSH key to remote server and SSH into it
+copy_ssh_key_to_remote() {
+    read -p "Enter the remote server IP address: " REMOTE_IP
+    read -p "Enter the remote server username: " REMOTE_USER
+
+    # Copy SSH public key to remote server
+    echo "Copying SSH public key to remote server..."
+    ssh-copy-id $REMOTE_USER@$REMOTE_IP
+
+    # SSH into remote server
+    echo "SSH into remote server..."
+    ssh $REMOTE_USER@$REMOTE_IP
+}
+
+# Ask user if they want to generate SSH key pair
+read -p "Do you want to generate an SSH key pair? (yes/no): " GENERATE_KEY
+
+# Check user's response
+case $GENERATE_KEY in
+    [Yy]|[Yy][Ee][Ss]) # If yes, generate SSH key pair and list files
+        generate_ssh_keypair
+        list_ssh_keys
+        ;;
+    *)
+        echo "No SSH key pair generated."
+        ;;
+esac
+
+# Ask user if they want to copy SSH key to remote server
+read -p "Do you want to copy the SSH key to a remote server? (yes/no): " COPY_KEY
+
+# Check user's response
+case $COPY_KEY in
+    [Yy]|[Yy][Ee][Ss]) # If yes, copy SSH key to remote server and SSH into it
+        copy_ssh_key_to_remote
+        ;;
+    *)
+        echo "No SSH key copied to remote server."
+        ;;
+esac
+```
+
+Explanation of each part:
+
+1. `generate_ssh_keypair`: Function to generate an SSH key pair using `ssh-keygen`.
+
+2. `list_ssh_keys`: Function to list the generated SSH key files in the `~/.ssh/` directory.
+
+3. `copy_ssh_key_to_remote`: Function to copy the SSH public key to a remote server using `ssh-copy-id` and then SSH into the remote server using `ssh`.
+
+4. The script asks the user if they want to generate an SSH key pair and stores their response in the variable `GENERATE_KEY`.
+
+5. Based on the user's response, the script either generates an SSH key pair and lists the generated files or skips this step.
+
+6. The script then asks the user if they want to copy the SSH key to a remote server and stores their response in the variable `COPY_KEY`.
+
+7. Based on the user's response, the script either copies the SSH key to the remote server and SSH into it or skips this step.
+
+This script allows the user to interactively generate an SSH key pair, list the generated files, and optionally copy the SSH key to a remote server and SSH into it for testing.
+
