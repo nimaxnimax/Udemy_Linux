@@ -12,6 +12,18 @@ Instructor & Courses >> https://www.udemy.com/user/adrian-fischer-infotech/
 
 **********
 
+Secure Shell
+
+- Secure Shell (SSH) is a cryptographic network protocol for secure communication over an unsecured network.
+- It provides a secure channel over an unsecured network by encrypting the connection between two systems.
+- SSH allows users to securely log into and access remote systems over the internet.
+- It supports various authentication methods, including passwords, public-key cryptography, and two-factor authentication.
+- SSH can also securely transfer files and execute commands on remote systems.
+- It is widely used in system administration, remote server management, and secure file transfers.
+
+
+**********
+
 OpenSSH (Open Secure Shell) is a free and open-source suite of network connectivity tools that allows secure communication between computers over an insecure network. It was originally developed as a replacement for the proprietary SSH (Secure Shell) protocol. OpenSSH provides several tools, including:
 
 1. **ssh**: This is the primary tool for secure remote login and execution of commands on a remote machine. It encrypts all traffic, including passwords, to effectively prevent eavesdropping, connection hijacking, and other network-level attacks.
