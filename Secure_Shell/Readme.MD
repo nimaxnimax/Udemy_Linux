@@ -364,3 +364,36 @@ This script can be saved in a file with a `.sh` extension, and then you can exec
 
 Bash Script Examples:
 
+Simple Bash script to show the up and running services on Ubuntu:
+
+```bash
+#!/bin/bash
+
+# List up and running services
+services=$(systemctl list-units --type=service --state=running --no-pager)
+
+# Print header
+echo "Up and Running Services on Ubuntu:"
+echo "----------------------------------"
+echo "$services"
+```
+
+Explanation of each line:
+
+1. `#!/bin/bash`: This line specifies the interpreter to be used, which is Bash.
+
+2. `services=$(systemctl list-units --type=service --state=running --no-pager)`: This line uses `systemctl` to list all running services without a pager.
+
+3. `echo "Up and Running Services on Ubuntu:"`: This line prints a header indicating the purpose of the output.
+
+4. `echo "----------------------------------"`: This line prints a separator line for better readability.
+
+5. `echo "$services"`: This line prints the list of up and running services.
+
+This script can be saved in a file with a `.sh` extension, and then you can execute it to display the up and running services on your Ubuntu system. The output will show the names of all services that are currently running.
+
+
+**********
+
+Bash Script Examples:
+
