@@ -397,3 +397,22 @@ This script can be saved in a file with a `.sh` extension, and then you can exec
 
 Bash Script Examples:
 
+Bash script to show the top memory-consuming processes and their memory usage on Ubuntu:
+
+```bash
+#!/bin/bash
+
+# Number of processes to display
+NUM_PROCESSES=5
+
+# Get top memory-consuming processes
+top_processes=$(ps aux --sort -%mem | head -n $((NUM_PROCESSES + 1)) | tail -n $NUM_PROCESSES)
+
+# Print top processes
+echo "$top_processes"
+```
+
+**********
+
+Bash Script Examples:
+
