@@ -156,11 +156,35 @@ pfSense Firewall Traffic Shaper and Queue:
 pfSense Limiter:
 
 The pfSense firewall shaper limiter is a feature that allows administrators to set specific bandwidth limits or caps on traffic flows, enabling fine-grained control over network bandwidth utilization. Here's an overview:
+
 - **Bandwidth Limitation:** The limiter feature enables administrators to enforce upper limits on both upload and download speeds for specific types of traffic or individual IP addresses.
+
 - **Traffic Prioritization:** Administrators can prioritize certain types of traffic over others by assigning different bandwidth limits to different traffic flows. This ensures that critical applications receive the necessary bandwidth while preventing non-essential traffic from consuming excessive resources.
+
 - **Dynamic Adjustment:** The limiter can dynamically adjust bandwidth limits based on predefined rules or network conditions, allowing administrators to optimize bandwidth allocation in real-time.
+
 - **Usage Scenarios:** Common use cases for the limiter include ensuring Quality of Service (QoS) for VoIP or video conferencing applications, preventing bandwidth-intensive activities from monopolizing network resources, and managing traffic congestion during peak usage periods.
+
 - **Integration with Traffic Shaper:** The limiter works in conjunction with pfSense's Traffic Shaper functionality, allowing administrators to implement complex traffic shaping policies that combine bandwidth limitations with traffic prioritization and queue management.
+
 - **Ease of Configuration:** Administrators can configure and manage the limiter using pfSense's intuitive web interface, which provides a user-friendly platform for defining bandwidth limits, creating traffic shaping rules, and monitoring network traffic in real-time.
+
 - **Benefits:** By implementing bandwidth limitations with the limiter, administrators can ensure fair and equitable distribution of network resources, improve overall network performance, and mitigate the impact of bandwidth-intensive activities on critical applications or services.
+
+
+pfSense Scheduler Type:
+
+In pfSense's Traffic Shaper, various scheduling algorithms are available to control how traffic is prioritized and managed within defined queues. Here's an overview of some common scheduling types:
+
+- **HFSC (Hierarchical Fair Service Curve):** HFSC is a sophisticated scheduling algorithm that provides hierarchical traffic shaping with the ability to allocate bandwidth based on specific service curves. It allows administrators to define different service classes and guarantee minimum bandwidth for each class while efficiently utilizing available bandwidth.
+
+- **CBQ (Class-Based Queuing):** CBQ is a traditional queuing discipline that divides traffic into different classes based on predefined criteria and assigns each class a specific share of bandwidth. It provides basic traffic prioritization and can be useful for simple traffic shaping scenarios.
+
+- **FAIRQ (Fair Queuing):** Fair Queuing is a simple scheduling algorithm that aims to provide equal access to network resources for all traffic flows. It divides available bandwidth equally among active flows, ensuring fairness and preventing any single flow from dominating the network.
+
+- **CODELQ (Controlled Delay Queueing):** CODELQ is a modern queuing discipline designed to minimize packet delay and bufferbloat. It uses active queue management techniques to control packet queuing delays and maintain low latency, improving overall network performance and responsiveness.
+
+- **PRIQ (Priority Queuing):** PRIQ is a straightforward scheduling algorithm that assigns each traffic class a priority level. Higher priority traffic is dequeued and transmitted before lower priority traffic, allowing critical applications to receive preferential treatment.
+
+Each scheduling type has its own advantages and use cases, and the choice of scheduling algorithm depends on factors such as network topology, traffic characteristics, and performance requirements. Administrators can select the most appropriate scheduling type based on their specific needs and objectives when configuring the pfSense Traffic Shaper.
 
